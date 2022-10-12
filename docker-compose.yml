@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12.3
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - backend
+  web:
+    build: .
+    ports:
+      - "80:3000"
+      # - "3000:3000"
+    environment:
+      RAILS_ENV: development
+    env_file: .env
+    depends_on:
+      - db
+    networks:
+      - backend
+    image: tomasalvarez13/e2-2022-1-tomasalvarez13
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  backend:

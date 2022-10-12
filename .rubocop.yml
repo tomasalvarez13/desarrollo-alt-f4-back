@@ -1,0 +1,52 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  NewCops: disable
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - tmp/**
+    - test/**
+    - storage/**/*
+    - public/*
+    - lib/**
+
+Layout/LineLength:
+  Max: 150
+
+Metrics/BlockLength:
+  Exclude:
+    - config/**/*
+    - spec/**/*
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false    
+
+Metrics/MethodLength:
+  Max: 1000
+
+Metrics/ClassLength:
+  Max: 1000
+
+Layout/LineLength:
+  Max: 1000
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false

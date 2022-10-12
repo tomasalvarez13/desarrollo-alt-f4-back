@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+ - source: .
+   destination: /e1-2022-1-grupo_16
+hooks:
+  AfterInstall:
+   - location: scripts/install_app_dependencies.sh
+     timeout: 300
+     runas: root
+  ApplicationStart:
+   - location: scripts/start_server.sh
+     timeout: 300
+     runas: root

@@ -1,0 +1,16 @@
+En este archivo se encuentran los pasos 
+necesarios para correr la api localmente usando docker y docker-compose:
+
+1. Instalar docker y docker-compose
+
+2.  Ejecutar el comando docker-compose build
+
+3.  Ejecutar el comando docker-compose run web rake db:create
+
+
+4.  Ejecutar el comando docker-compose run web rake db:migrate
+
+5.  Ejecutar el comando docker-compose up
+
+Nota: Si se quiere correr sin docker, debe tener instalada la version de ruby 2.7.0, rails 5.2.7, y crear la base de datos postgres
+con nombre y contraseñas mencionadas en database.yml

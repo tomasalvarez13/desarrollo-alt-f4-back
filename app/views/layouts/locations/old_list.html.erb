@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Lat</th>
+          <th scope="col">Long</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% client = OpenStreetMap::Client.new %>
+          <% @locations.each do |location| %>
+                    <tr>
+                    <th scope="row"><%= location.name %>   </th>
+                    <td><%= location.lat %>   </td>
+                    <td><%= location.long %></td>
+                    <td>
+                    <%= link_to 'Eliminar',delete_location_path(:id => location.id)%>
+                    </td>
+                   
+
+              </tr>
+          <% end %>
+      </tbody>
+    </table>
+
+    <p><%= link_to 'Agregar Ubicación', new_location_path, class: 'btn btn-black', method: "get" %></p>
+    <p><%= link_to 'Volver al inicio', root_path, class: 'btn btn-black', method: "get" %></p>
+    <p><%= link_to 'Ubicaciones de otro usuario', list_other_locations_path, class: 'btn btn-black', method: "get" %></p>
+    <br><br>
+
+    <div id="map">
+      <%= map(:center => {
+        :latlng => [51.52238797921441, -0.08366235665359283],
+        :zoom => 2
+          },
+          :markers => @location_list
+            
+          
+        )%>
+    </div>
+    
+
+
