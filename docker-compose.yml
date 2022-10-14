@@ -2,6 +2,8 @@ version: '3.7'
 services:
   db:
     image: postgres:12.3
+    ports:
+      - "5432:5432"
     volumes:
       - data:/var/lib/postgresql/data
     environment:
@@ -11,8 +13,8 @@ services:
   web:
     build: .
     ports:
-      - "80:3000"
-      # - "3000:3000"
+      #- "80:3000"
+      - "3000:3000"
     environment:
       RAILS_ENV: development
     env_file: .env
@@ -20,7 +22,6 @@ services:
       - db
     networks:
       - backend
-    image: tomasalvarez13/e2-2022-1-tomasalvarez13
 
 volumes:
   data:

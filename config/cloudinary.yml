@@ -1,5 +1,0 @@
-development:
-  CLOUDINARY_URL: ENV["CLOUDINARY_URL"]
-
-production:
-  CLOUDINARY_URL: ENV["CLOUDINARY_URL"]

@@ -1,63 +1,62 @@
 # frozen_string_literal: true
 
+# user controller
 class UsersController < ApplicationController
-  # before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index get_current]
+  before_action :set_user, only: %i[show update destroy]
+  skip_before_action :authenticate_user, only: %i[create]
 
   # GET /users
   def index
     @users = User.all
-    render json: @users, status: :ok
+
+    render json: @users, except: [:password_digest], status: :ok
   end
 
-  # GET /users/{username}
+  # GET /users/1
   def show
-    render json: @user, status: :ok
+    render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
+    render json: @user, except: [:password_digest], status: :ok if @user.present?
   end
 
   # POST /users
   def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user, status: :created
+    user = User.new(user_params)
+    if user.save
+      render json: user, except: [:password_digest], status: :created
     else
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+      render json: user.errors, status: :unprocessable_entity
     end
   end
 
-  # PUT /users/{username}
+  # PATCH/PUT /users/1
   def update
-    unless @user.update(user_params)
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
-    end
-  end
+    render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
+    return unless @user.present?
 
-  # DELETE /users/{username}
-  def destroy
-    @user.destroy
-  end
-
-  def get_current
-    if @current_user
-      render json: @current_user, status: :ok
+    if @user.update(user_params)
+      render json: @user, except: [:password_digest], status: :accepted
     else
-      render json: { errors: 'No current' }, status: :not_found
+      render json: @user.errors, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /users/1
+  def destroy
+    render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
+    @user.destroy if @user.present?
   end
 
   private
 
-  def find_user
-    @user = User.find_by!(username: params[:_username])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { errors: 'User not found' }, status: :not_found
+    @user = nil
   end
 
+  # Only allow a list of trusted parameters through.
   def user_params
-    params.permit(
-      :avatar, :name, :username, :email, :password, :password_confirmation
-    )
+    params.permit(:name, :lastname, :username, :password, :role)
   end
 end
