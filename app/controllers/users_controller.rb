@@ -31,14 +31,12 @@ class UsersController < ApplicationController
   def update
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
     return unless @user.present?
-    if @user.id == @current_user.id
-      if @current_user.update(user_params)
-        render json: @user, except: [:password_digest], status: :accepted
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+    render json: { error: 'Usuario no es actual' }, status: :unauthorized if @user != @current_user 
+    return unless @user == @current_user
+    if @user.update!(user_params)
+      render json: @user, except: [:password_digest], status: :accepted
     else
-      render json: { error: 'Usuario no es actual' }, status: :unauthorized
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -57,15 +55,16 @@ class UsersController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def user_params
+    params.permit(:id, :name, :lastname, :username, :password, :role)
+  end
+
   def set_user
-    @user = User.find(params[:id])
-  
+    @user = User.find(user_params[:id])  
   rescue ActiveRecord::RecordNotFound
     @user = nil
   end
 
   # Only allow a list of trusted parameters through.
-  def user_params
-    params.permit(:name, :lastname, :username, :password, :role)
-  end
+  
 end
