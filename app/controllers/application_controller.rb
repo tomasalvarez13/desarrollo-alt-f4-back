@@ -18,6 +18,6 @@ class ApplicationController < ActionController::API
     @current_user = User.find(user_id)
     return head :unauthorized if @current_user.blank?
 
-    params[:user_id] = @current_user.id
+    # params[:user_id] = @current_user.id
   end
 end

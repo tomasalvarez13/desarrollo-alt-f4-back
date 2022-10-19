@@ -8,7 +8,6 @@ class PostsController < ApplicationController
     end
 
     def show
-        puts(@post)
         render json: { error: 'No existe post' }, status: :not_found if @post.blank?
         render json: @post, status: :ok if @post.present?
     end
@@ -17,7 +16,7 @@ class PostsController < ApplicationController
         render json: { error: 'Usuario no es tatuador' }, status: :unauthorized if !@current_user.artist?
         return unless @current_user.artist?
         post = Post.new(post_params)
-        post = @current_user
+        post.user = @current_user
         if post.save
             render json: post, status: :created
         else
