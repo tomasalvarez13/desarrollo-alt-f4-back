@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-User.find_or_create_by(name: 'admin', lastname: 'admin', username: 'admin@admin.cl', role: 1,
+User.find_or_create_by(name: 'admin', lastname: 'admin', username: 'admin@admin.cl', role: 0,
                        password_digest: BCrypt::Password.create('admin'))
 User.find_or_create_by(name: 'Benja', lastname: 'Alamos', username: 'balamos@user.cl', role: 2,
                        password_digest: BCrypt::Password.create('benja'))
