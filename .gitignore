@@ -29,3 +29,9 @@
 /config/master.key
 /.env
 
+
+# MacOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
