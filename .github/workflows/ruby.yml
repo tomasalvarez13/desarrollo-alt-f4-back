@@ -7,41 +7,35 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
-    services: 
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        ports: ['5432:5432']
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+    - uses: actions/checkout@v2
 
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
 
-      - name: Install Dependencies
-        run: |
-          sudo apt install -yqq libpq-dev
-          gem install bundler
+    - name: Install PostgreSQL client
+      run: |
+        sudo apt-get -yqq install libpq-dev
 
-      - name: Install Gems
-        run: |
-          bundle install
-
-      - name: Setup database
-        env:
-          PG_HOST: db
-          PG_USER: postgres
-          PG_PASSWORD: password
-          RAILS_ENV: test
-        run: |
-          bundle exec rails db:setup
-          bundle exec rake test
-          
-          
+    - name: Build App
+      env:
+        PGHOST: db
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        RAILS_ENV: test
+      run: |
+        yarn install
+        bin/rails db:setup
+        bundle exec rails webpacker:compile
+    - name: Run Tests
+      env:
+        PGHOST: db
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        RAILS_ENV: test
+      run: |
+        bundle exec rake test
