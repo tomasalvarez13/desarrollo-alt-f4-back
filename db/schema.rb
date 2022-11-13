@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_04_214215) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_19_152249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appointments", force: :cascade do |t|
+    t.text "descrption"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.money "price", scale: 2
+    t.integer "placement"
+    t.float "height"
+    t.float "width"
+    t.string "image_url"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -24,4 +46,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_214215) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "appointments", "users"
+  add_foreign_key "posts", "users"
 end

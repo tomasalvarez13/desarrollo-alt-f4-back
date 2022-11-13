@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-
     render json: @users, except: [:password_digest], status: :ok
   end
 
@@ -32,8 +31,9 @@ class UsersController < ApplicationController
   def update
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
     return unless @user.present?
-
-    if @user.update(user_params)
+    render json: { error: 'Usuario no es actual' }, status: :unauthorized if @user != @current_user 
+    return unless @user == @current_user
+    if @user.update!(user_params)
       render json: @user, except: [:password_digest], status: :accepted
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -43,20 +43,28 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
-    @user.destroy if @user.present?
+    return unless @user.present?
+    if @current_user == @user || @current_user.admin?
+      @user.destroy 
+      render status: :ok
+    else
+      render json: { error: 'No Autorizado' }, status: :unauthorized
+    end
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def user_params
+    params.permit(:id, :name, :lastname, :username, :password, :role)
+  end
+
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find(user_params[:id])  
   rescue ActiveRecord::RecordNotFound
     @user = nil
   end
 
   # Only allow a list of trusted parameters through.
-  def user_params
-    params.permit(:name, :lastname, :username, :password, :role)
-  end
+  
 end
