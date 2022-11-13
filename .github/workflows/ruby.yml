@@ -36,7 +36,7 @@ jobs:
 
       - name: Setup database
         env:
-          PG_HOST: localhost
+          PG_HOST: db
           PG_USER: postgres
           PG_PASSWORD: password
           RAILS_ENV: test
