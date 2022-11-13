@@ -27,5 +27,17 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+
 .env
 Gemfile.lock
+
+/.env
+
+
+# MacOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+
