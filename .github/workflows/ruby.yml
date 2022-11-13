@@ -23,7 +23,7 @@ jobs:
 
     - name: Build App
       env:
-        PGHOST: db
+        PGHOST: localhost
         PGUSER: postgres
         PGPASSWORD: postgres
         RAILS_ENV: test
@@ -33,7 +33,7 @@ jobs:
         bundle exec rails webpacker:compile
     - name: Run Tests
       env:
-        PGHOST: db
+        PGHOST: localhost
         PGUSER: postgres
         PGPASSWORD: postgres
         RAILS_ENV: test
