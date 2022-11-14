@@ -7,6 +7,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
             password_digest: BCrypt::Password.create('santiago'))
         @authorization = ActionController::HttpAuthentication::Token.encode_credentials(AuthenticationTokenService.generate_token(@user.id))
         @post = Post.new(price: 10, placement: 1, height: 1.0, width: 1.0, image_url: "www.url.org")
+        @post.user = @user
+        @post.save
     end
 
     test 'get posts sin token' do
@@ -29,9 +31,19 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
         assert_response :success
     end
 
+    test 'crear posts sin data' do
+        post "/posts",params: {price: 10, placement: 1, height: 1.0, width: 1.0},as: :json, headers: { "HTTP_AUTHORIZATION" => @authorization }
+        assert_response 422
+    end
+
     test 'edit post' do
         patch "/posts/#{@post.id}", params: {price: 100, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org'},as: :json, headers: { "HTTP_AUTHORIZATION" => @authorization }
         assert_response :success
+    end
+    
+    test 'delete post sin token' do
+        delete "/posts/#{@post.id}"
+        assert_response 401
     end
 
     test 'delete post' do

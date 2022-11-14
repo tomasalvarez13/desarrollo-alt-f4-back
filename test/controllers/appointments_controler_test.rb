@@ -7,7 +7,8 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
             password_digest: BCrypt::Password.create('santiago'))
         @authorization = ActionController::HttpAuthentication::Token.encode_credentials(AuthenticationTokenService.generate_token(@user.id))
         @appointment = Appointment.new(descrption: "long description", start_time: "2022-02-03T12:00:00+00:00", end_time: "2022-02-03T12:01:00+00:00")
-
+        @appointment.user = @user
+        @appointment.save
     end
 
     test 'get appointments' do
@@ -25,6 +26,11 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
         assert_response :success
     end
 
+    test 'crear appointment sin token' do
+        post "/appointments",params: {descrption: "long description 2", start_time: "2022-02-03T12:00:00+00:00", end_time: "2022-02-03T12:01:00+00:00"},as: :json
+        assert_response 401
+    end
+
     test 'crear appointment con token' do
         post "/appointments",params: {descrption: "long description 2", start_time: "2022-02-03T12:00:00+00:00", end_time: "2022-02-03T12:01:00+00:00"},as: :json, headers: { "HTTP_AUTHORIZATION" => @authorization }
         assert_response :success
@@ -33,6 +39,16 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
     test 'edit appointment' do
         patch "/appointments/#{@appointment.id}", params: {descrption: "long description", start_time: "2022-02-03T12:00:00+00:00", end_time: "2022-02-03T12:02:00+00:00"},as: :json, headers: { "HTTP_AUTHORIZATION" => @authorization }
         assert_response :success
+    end
+
+    test 'edit appointment sin token' do
+        patch "/appointments/#{@appointment.id}", params: {descrption: "long description", start_time: "2022-02-03T12:00:00+00:00", end_time: "2022-02-03T12:02:00+00:00"},as: :json
+        assert_response 401
+    end
+
+    test 'delete appointment sin token' do
+        delete "/appointments/#{@appointment.id}"
+        assert_response 401
     end
 
     test 'delete appointment' do
