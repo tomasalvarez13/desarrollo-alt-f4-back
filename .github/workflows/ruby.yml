@@ -12,9 +12,9 @@ jobs:
 
     services: 
       postgres:
-        image: postgres
+        image: db
         env:
-          POSTGRES_HOST: db
+          POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_PASSWORD: postgres
         ports: ['5432:5432']
 
