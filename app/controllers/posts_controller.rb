@@ -50,7 +50,7 @@ class PostsController < ApplicationController
     private
 
     def post_params
-        params.permit(:id, :price, :placement, :height, :width, :image)
+        params.permit(:id, :price, :placement, :height, :width, :image_url)
     end
     
     def set_post
