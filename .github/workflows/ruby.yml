@@ -36,6 +36,7 @@ jobs:
           
       - name: Run Tests
         env:
+          PG_HOST: postgres 
           PG_DATABASE: postgres
           PG_USER: postgres
           PG_PASSWORD: postgres
