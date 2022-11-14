@@ -1,9 +1,22 @@
 # README
+## Creamos y migramos base de datos con las seeds
+~~~
+docker-compose run web rake db:create  
+docker-compose run web rake db:migrate
+docker-compose run web rake db:seed
+~~~
+## Corremos la aplicacion
+~~~
+docker compose up
+~~~
+## Para correr los test
+~~~
+docker-compose run web rake db:migrate RAILS_ENV=test
+docker-compose run web rake test
+~~~
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Things you may want to cover:
 
 * Ruby version
 

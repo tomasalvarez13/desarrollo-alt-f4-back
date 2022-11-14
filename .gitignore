@@ -31,7 +31,6 @@
 
 .env
 Gemfile.lock
-
 /.env
 
 
@@ -39,5 +38,8 @@ Gemfile.lock
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Coverage from simplecov
+coverage
 
 
