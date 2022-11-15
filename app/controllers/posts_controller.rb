@@ -15,8 +15,11 @@ class PostsController < ApplicationController
     def create
         render json: { error: 'Usuario no es tatuador' }, status: :unauthorized if !@current_user.artist?
         return unless @current_user.artist?
-        post = Post.new(post_params)
+        image = params[:image_id]
+        params = post_params.except(:image_id, :post)
+        post = Post.new(params)
         post.user = @current_user
+
         if post.save
             render json: post, status: :created
         else
@@ -50,7 +53,7 @@ class PostsController < ApplicationController
     private
 
     def post_params
-        params.permit(:id, :price, :placement, :height, :width, :image_url)
+        params.permit(:id, :price, :placement, :height, :width, :image_url, :image_id, :user_id, :post)
     end
     
     def set_post
