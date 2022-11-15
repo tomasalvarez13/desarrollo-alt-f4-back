@@ -31,7 +31,7 @@
 
 .env
 Gemfile.lock
-
+rvm.sh
 /.env
 
 

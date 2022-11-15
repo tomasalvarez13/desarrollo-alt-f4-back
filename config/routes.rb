@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :posts
   resources :appointments
 
+  post '/presigned_url', to: 'direct_upload#create'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
