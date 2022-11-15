@@ -36,10 +36,10 @@ jobs:
       - name: Run Tests
         env:
           PG_DATABASE: postgres
-          PG_HOST: localhost
           PG_USER: postgres
           PG_PASSWORD: postgres
           RAILS_ENV: test
         run: |
-          bundle exec rails db:prepare
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
           bundle exec rake test

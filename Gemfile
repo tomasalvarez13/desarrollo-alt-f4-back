@@ -71,4 +71,5 @@ group :test do
   gem 'capybara-bootstrap-datepicker'
   gem 'database_cleaner-active_record'
   gem 'database_cleaner'
+  gem 'simplecov'
 end
