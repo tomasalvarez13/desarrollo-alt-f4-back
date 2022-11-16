@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   post 'authenticate', to: 'authentication#login'
+  post 'register', to: 'users#register'
+  get 'me', to: 'application#me'
   # mount Rswag::Ui::Engine => '/api-docs'
   # mount Rswag::Api::Engine => '/api-docs'
   resources :users

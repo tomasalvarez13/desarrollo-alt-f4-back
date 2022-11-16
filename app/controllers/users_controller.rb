@@ -3,7 +3,7 @@
 # user controller
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
-  skip_before_action :authenticate_user, only: %i[create]
+  skip_before_action :authenticate_user, only: %i[create, register]
 
   # GET /users
   def index
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
-    render json: @user, except: [:password_digest], status: :ok if @user.present?
+    render json: @user.as_json(include: %i[posts appointments], except: :password_digest), status: :ok if @user.present?
   end
 
   # POST /users
@@ -25,6 +25,13 @@ class UsersController < ApplicationController
     else
       render json: user.errors, status: :unprocessable_entity
     end
+  end
+
+  def register
+    user = User.create!(user_params)
+    render json: { accessToken: AuthenticationTokenService.generate_token(user.id), user: }, status: :created
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
   end
 
   # PATCH/PUT /users/1
