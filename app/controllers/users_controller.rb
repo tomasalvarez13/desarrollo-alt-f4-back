@@ -28,9 +28,10 @@ class UsersController < ApplicationController
   end
 
   def register
-    # check that :password is equal to :confirmPassword
     user = User.create!(user_params)
-    render json: { accessToken: AuthenticationTokenService.generate_token(user.id), user: }, status: :ok
+    render json: { accessToken: AuthenticationTokenService.generate_token(user.id), user: }, status: :created
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
   end
 
   # PATCH/PUT /users/1

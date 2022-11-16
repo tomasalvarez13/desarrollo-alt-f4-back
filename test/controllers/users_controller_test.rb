@@ -35,18 +35,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     test 'sing in' do
-        post "/users", params: {name: 'Fernando', lastname: 'Olivos', username: 'fernando@user.cl', role: 1, password: 'santiago' },as: :json
+        post "/register", params: {name: 'Fernando', lastname: 'Olivos', username: 'fernando@user.cl', role: 1, password: 'santiago' },as: :json
         assert_response :success
     end
 
     test 'sing in sin data' do
-        post "/users", params: {name: 'Fernando', lastname: 'Olivos', role: 1, password: 'santiago' },as: :json
+        post "/register", params: {name: 'Fernando', lastname: 'Olivos', role: 1, password: 'santiago' },as: :json
+        # assert ActiveRecord::RecordInvalid: Validation failed: Username can't be blank
         assert_response 422
     end
 
     test 'edit user sin params' do
         patch "/users/#{@user.id}", headers: { "HTTP_AUTHORIZATION" => @authorization }
-        assert_response :success
+        assert_response 422
     end
 
     test 'edit user' do
