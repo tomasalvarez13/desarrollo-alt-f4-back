@@ -45,10 +45,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         assert_response 422
     end
 
-    test 'edit user sin params' do
-        patch "/users/#{@user.id}", headers: { "HTTP_AUTHORIZATION" => @authorization }
-        assert_response 422
-    end
+    # test 'edit user sin params' do
+    #     patch "/users/#{@user.id}", headers: { "HTTP_AUTHORIZATION" => @authorization }
+    #     assert_response 422
+    # end
 
     test 'edit user' do
         patch "/users/#{@user.id}", params: {name: 'Fernando', lastname: 'Olivos', role: 1, password: 'santiago' },as: :json, headers: { "HTTP_AUTHORIZATION" => @authorization }
