@@ -9,6 +9,7 @@ class AuthenticationController < ApplicationController
   def login
     raise ApiValidation::AuthenticationError if user.blank?
     raise ApiValidation::AuthenticationError unless user.authenticate(params.require(:password))
+
     # raise ActionController::ParameterMissing unless params.require(:token)
 
     render json: { accessToken: AuthenticationTokenService.generate_token(user.id) }, status: :ok
