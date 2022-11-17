@@ -1,3 +1,4 @@
+include ActionView::Helpers::NumberHelper
 class PostsController < ApplicationController
     before_action :set_post, only: %i[show update destroy]
     before_action :authenticate_user
@@ -48,6 +49,25 @@ class PostsController < ApplicationController
         else
             render json: { error: 'No Autorizado' }, status: :unauthorized
         end     
+    end
+
+    def filter_artist
+        @id = params[:id]
+        @filter = Post.where(['user_id = ?', @id])
+        render json: @filter, status: :ok
+    end
+
+    def filter_price
+        @priceLow = number_to_currency(params[:priceLow])
+        @priceHigh = number_to_currency(params[:priceHigh])
+        @filterPrice = Post.where(['price <= ? and price >= ?', @priceHigh, @priceLow]) if (@priceHigh and @priceLow)
+        render json: @filterPrice, status: :ok
+    end
+
+    def filter_placement
+        @placement = params[:placement]
+        @filterplacement = Post.where(['placement = ?', @placement]) if (@placement)
+        render json: @filterplacement, status: :ok
     end
 
     private
