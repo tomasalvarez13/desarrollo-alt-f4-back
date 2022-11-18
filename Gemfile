@@ -34,8 +34,8 @@ gem 'rswag'
 
 gem 'rubocop-rails'
 
-gem 'dotenv-rails'
 gem 'aws-sdk-s3'
+gem 'dotenv-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -61,15 +61,15 @@ group :development do
 end
 
 group :test do
+  gem 'apparition'
+  gem 'capybara'
+  gem 'capybara-bootstrap-datepicker'
+  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
+  gem 'geckodriver-helper'
   gem 'phantomjs'
   gem 'poltergeist'
-  gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'geckodriver-helper'
-  gem 'apparition'
-  gem 'webdrivers'
-  gem 'capybara-bootstrap-datepicker'
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner'
   gem 'simplecov'
+  gem 'webdrivers'
 end
