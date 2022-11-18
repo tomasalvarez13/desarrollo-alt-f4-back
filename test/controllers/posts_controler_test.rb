@@ -6,7 +6,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     @user = User.create(name: 'Santiago', lastname: 'Olivos', username: 'santiago@user.cl', role: 2,
                         password_digest: BCrypt::Password.create('santiago'))
     @authorization = ActionController::HttpAuthentication::Token.encode_credentials(AuthenticationTokenService.generate_token(@user.id))
-    @post = Post.new(price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org')
+    @post = Post.new(price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org', title: "bla", description: "bla2")
     @post.user = @user
     @post.save
   end
@@ -27,7 +27,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'crear posts con token' do
-    post '/posts', params: { price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org' }, as: :json,
+    post '/posts', params: { price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org' , title: "bla", description: "bla2"}, as: :json,
                    headers: { 'HTTP_AUTHORIZATION' => @authorization }
     assert_response :success
   end

@@ -8,7 +8,7 @@ class PostsTest < ActiveSupport::TestCase
   end
 
   test 'create post' do
-    post = Post.new(price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org')
+    post = Post.new(price: 10, placement: 1, height: 1.0, width: 1.0, image_url: 'www.url.org', title: "bla", description: "bla2")
     assert !post.save
   end
 end
