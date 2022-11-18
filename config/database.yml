@@ -94,10 +94,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: rociomartinez
-  password: Rociom99
-  port: 5433
+  host: db
+  username: postgres
+  password: 
   pool: 5
 
 development:
