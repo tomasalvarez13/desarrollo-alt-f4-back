@@ -59,6 +59,7 @@ class PostsController < ApplicationController
 
   def filter_all
     @id = params[:id]
+    @user_id = params[:user_id]
     @price_low = number_to_currency(params[:price_low])
     @price_high = number_to_currency(params[:price_high])
     @height_low = params[:height_low]
@@ -67,19 +68,20 @@ class PostsController < ApplicationController
     @width_high = params[:width_high]
     @placement = params[:placement]
     @order = params[:order]
+    @title = params[:title]
 
     @filter = Post.all
-    @filter = @filter.where(['user_id = ?', @id]) if @id
+    @filter = @filter.where(['id = ?', @id]) if @id
+    @filter = @filter.where(['user_id = ?', @user_id]) if @user_id
+    @filter = @filter.where(['placement = ?', @placement]) if @placement
+    @filter = @filter.where(['lower(title) LIKE ?', "%#{@title.downcase}%"]) if @title
+
     @filter = @filter.where(['price <= ? ', @price_high]) if @price_high
     @filter = @filter.where(['price >= ?', @price_low]) if @price_low
-
     @filter = @filter.where(['height <= ? ', @height_high]) if @height_high
     @filter = @filter.where(['height >= ?', @height_low]) if @height_low
-
     @filter = @filter.where(['width <= ? ', @width_high]) if @width_high
     @filter = @filter.where(['width >= ?', @width_low]) if @width_low
-
-    @filter = @filter.where(['placement = ?', @placement]) if @placement
 
     @filter = @filter.order('price') if @order == 1
     @filter = @filter.order('price DESC') if @order == 2
@@ -89,6 +91,10 @@ class PostsController < ApplicationController
     @filter = @filter.order('width DESC') if @order == 6
     @filter = @filter.order('placement') if @order == 7
     @filter = @filter.order('placement DESC') if @order == 8
+    @filter = @filter.order('user_id') if @order == 9
+    @filter = @filter.order('user_id DESC') if @order == 10
+    @filter = @filter.order('title') if @order == 11
+    @filter = @filter.order('title DESC') if @order == 12
 
     render json: @filter, status: :ok
   end
@@ -96,7 +102,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:id, :price, :placement, :height, :width, :image_url, :image_id, :user_id, :post)
+    params.permit(:id, :price, :placement, :height, :width, :image_url, :title, :description, :image_id, :user_id, :post)
   end
 
   def set_post
