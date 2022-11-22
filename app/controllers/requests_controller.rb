@@ -56,6 +56,6 @@ class RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      params.permit(:placement, :height, :width, :color, :image_url, :schedule_date, :request_date, :update_date, :current_state, :phone_number, :description, :user_id, :artist_id)
+      params.permit(:placement, :height, :width, :color, :image_url, :schedule_date, :request_date, :update_date, :current_state, :phone_number, :description, :user_id, :artist_id, :request)
     end
 end
