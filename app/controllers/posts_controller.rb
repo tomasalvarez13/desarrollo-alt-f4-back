@@ -103,7 +103,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:id, :price, :placement, :height, :width, :image_url, :title, :description, :image_id, :user_id, :post)
+    params.require(:post).permit(:id, :price, :placement, :height, :width, :image_url, :title, :description, :image_id, :user_id)
   end
 
   def set_post

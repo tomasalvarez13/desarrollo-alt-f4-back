@@ -5,9 +5,7 @@ docker-compose run web rake db:create
 docker-compose run web rake db:migrate
 docker-compose run web rake db:seed
 ~~~
-## Corremos la aplicacion
-~~~
-docker compose up
+## Corremos la
 ~~~
 ## Para correr los test
 ~~~
