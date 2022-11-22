@@ -7,7 +7,7 @@ class AppointmentTest < ActiveSupport::TestCase
     assert !appointment.save
   end
 
-  test 'create post' do
+  test 'create post sin user' do
     appointment = Appointment.new(descrption: 'long description', start_time: '2022-02-03T12:00:00+00:00',
                                   end_time: '2022-02-03T12:01:00+00:00')
     assert !appointment.save

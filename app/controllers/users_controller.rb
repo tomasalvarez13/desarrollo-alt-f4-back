@@ -3,11 +3,12 @@
 # user controller
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
-  skip_before_action :authenticate_user, only: %i[create register]
+  skip_before_action :authenticate_user, only: %i[create register index show]
 
   # GET /users
   def index
     @users = User.all
+    @users = @users.where(['role = ?', params[:role]]) if params[:role]
     render json: @users, except: [:password_digest], status: :ok
   end
 

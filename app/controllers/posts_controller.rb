@@ -4,6 +4,7 @@ include ActionView::Helpers::NumberHelper
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show update destroy]
   before_action :authenticate_user
+  skip_before_action :authenticate_user, only: %i[index show]
 
   def index
     @posts = Post.all

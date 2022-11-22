@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :users
   resources :posts
   resources :appointments
+  resources :reviews
+  resources :requests
 
   post '/presigned_url', to: 'direct_upload#create'
 
