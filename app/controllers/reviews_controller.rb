@@ -20,7 +20,10 @@ class ReviewsController < ApplicationController
     @review.user = @current_user
     
     if review_params[:artist_id]
-      @review.artist = User.find(review_params[:artist_id])
+      artist = User.find(review_params[:artist_id]) 
+      render json: { error: 'Usuario no es tatuador' }, status: :unauthorized unless artist.artist?
+      return unless artist.artist?
+      @review.artist = artist
       if @review.save
         render json: @review, status: :created, location: @review
       else

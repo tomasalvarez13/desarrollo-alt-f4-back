@@ -20,7 +20,10 @@ class RequestsController < ApplicationController
     @request.user = @current_user
     
     if request_params[:artist_id]
-      @request.artist = User.find(request_params[:artist_id])
+      artist = User.find(request_params[:artist_id]) 
+      render json: { error: 'Usuario no es tatuador' }, status: :unauthorized unless artist.artist?
+      return unless artist.artist?
+      @request.artist = artist
       if @request.save
         render json: @request, status: :created, location: @request
       else
