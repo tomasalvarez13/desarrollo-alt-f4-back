@@ -10,7 +10,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'get users sin token' do
     get '/users'
-    assert_response 401
+    assert_response :success
   end
 
   test 'get users con token' do

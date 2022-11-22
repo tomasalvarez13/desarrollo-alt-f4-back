@@ -13,7 +13,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test 'get posts sin token' do
     get '/posts'
-    assert_response 401
+    assert_response :success
   end
 
   test 'get posts con token' do

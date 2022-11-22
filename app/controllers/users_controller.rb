@@ -3,18 +3,34 @@
 # user controller
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
-  skip_before_action :authenticate_user, only: %i[create register]
+  skip_before_action :authenticate_user, only: %i[create register index show]
 
   # GET /users
   def index
-    @users = User.all
-    render json: @users, except: [:password_digest], status: :ok
+    users_list = []
+    users = User.all
+    users = users.where(['role = ?', params[:role]]) if params[:role]
+    for user in users
+        sum = 0 
+        n = 0
+        reviews = Review.where(['artist_id = ?',user.id])
+        reviews.each do |review| 
+            sum+=review.score
+            n+=1
+        end
+        user_info = user.attributes.except("password_digest")
+        @average = 0
+        @average = sum/n if n>0
+        user_info[:average] = @average
+        users_list << user_info
+    end
+    render json: users_list, status: :ok
   end
 
   # GET /users/1
   def show
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
-    render json: @user.as_json(include: %i[posts appointments], except: :password_digest), status: :ok if @user.present?
+    render json: @user.as_json(include: %i[posts appointments artist_reviews artist_request], except: :password_digest), status: :ok if @user.present?
   end
 
   # POST /users

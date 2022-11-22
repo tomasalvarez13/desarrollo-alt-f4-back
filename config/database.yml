@@ -110,9 +110,9 @@ production:
 test:
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  port: 5433
-  username: rociomartinez
-  password: Rociom99
+  host: 172.17.0.1
+  port: 5432
+  username: postgres
+  password: postgres
   pool: 5
   database: alt_f4_test
