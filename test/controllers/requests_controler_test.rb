@@ -54,7 +54,7 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
     
       test 'edit request' do
         patch "/requests/#{@request.id}",
-              params: { score: 4, coment: "de pana" }, as: :json, headers: { 'HTTP_AUTHORIZATION' => @authorization }
+              params: { height:5, width:5 }, as: :json, headers: { 'HTTP_AUTHORIZATION' => @authorization }
         assert_response :success
       end
     

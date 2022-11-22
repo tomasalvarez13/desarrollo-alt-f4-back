@@ -103,11 +103,11 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:id, :price, :placement, :height, :width, :image_url, :title, :description, :image_id, :user_id, :post)
+    params.require(:post).permit(:id, :price, :placement, :height, :width, :image_url, :title, :description, :image_id, :user_id)
   end
 
   def set_post
-    @post = Post.find(post_params[:id])
+    @post = Post.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     @post = nil
   end
