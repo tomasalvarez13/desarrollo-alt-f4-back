@@ -7,9 +7,24 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
-    @users = @users.where(['role = ?', params[:role]]) if params[:role]
-    render json: @users, except: [:password_digest], status: :ok
+    users_list = []
+    users = User.all
+    users = users.where(['role = ?', params[:role]]) if params[:role]
+    for user in users
+        sum = 0 
+        n = 0
+        reviews = Review.where(['artist_id = ?',user.id])
+        reviews.each do |review| 
+            sum+=review.score
+            n+=1
+        end
+        user_info = user.attributes.except("password_digest")
+        @average = 0
+        @average = sum/n if n>0
+        user_info[:average] = @average
+        users_list << user_info
+    end
+    render json: users_list, status: :ok
   end
 
   # GET /users/1
