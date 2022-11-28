@@ -30,7 +30,12 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: { error: 'No se ha encontrado el usuario' }, status: :not_found if @user.blank?
-    render json: @user.as_json(include: %i[posts appointments artist_reviews artist_request], except: :password_digest), status: :ok if @user.present?
+    return unless @user.present?
+    if @user.artist?
+      render json: @user.as_json(include: %i[posts artist_reviews artist_request], except: :password_digest), status: :ok 
+    else
+      render json: @user.as_json(include: %i[user_reviews user_request], except: :password_digest), status: :ok 
+    end
   end
 
   # POST /users
