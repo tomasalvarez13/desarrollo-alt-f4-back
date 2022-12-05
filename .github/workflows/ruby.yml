@@ -45,7 +45,7 @@ jobs:
           bundle exec rake test
   continuous-deployment:
     runs-on: ubuntu-latest
-    needs: [lint]
+    needs: [test]
     if: github.ref == 'refs/heads/prueba-code-deploy'
     steps:     # Step 1
       - name: Configure AWS credentials
