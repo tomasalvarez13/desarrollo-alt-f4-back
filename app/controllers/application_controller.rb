@@ -20,4 +20,8 @@ class ApplicationController < ActionController::API
 
     # params[:user_id] = @current_user.id
   end
+
+  def me
+    render json: @current_user.as_json(include: %i[posts appointments], except: :password_digest), status: :ok
+  end
 end

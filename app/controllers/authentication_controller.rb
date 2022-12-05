@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
 
     # raise ActionController::ParameterMissing unless params.require(:token)
 
-    render json: { token: AuthenticationTokenService.generate_token(user.id), id: user.id }
+    render json: { accessToken: AuthenticationTokenService.generate_token(user.id) }, status: :ok
   end
 
   private

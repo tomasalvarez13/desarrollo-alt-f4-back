@@ -26,7 +26,7 @@ gem 'puma', '~> 5.0'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'jwt'
+gem 'jwt', '~> 2.5.0'
 
 gem 'rspec-rails'
 
@@ -34,6 +34,7 @@ gem 'rswag'
 
 gem 'rubocop-rails'
 
+gem 'aws-sdk-s3'
 gem 'dotenv-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
@@ -60,14 +61,15 @@ group :development do
 end
 
 group :test do
+  gem 'apparition'
+  gem 'capybara'
+  gem 'capybara-bootstrap-datepicker'
+  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
+  gem 'geckodriver-helper'
   gem 'phantomjs'
   gem 'poltergeist'
-  gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'geckodriver-helper'
-  gem 'apparition'
+  gem 'simplecov'
   gem 'webdrivers'
-  gem 'capybara-bootstrap-datepicker'
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner'
 end
