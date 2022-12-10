@@ -15,5 +15,7 @@ class User < ApplicationRecord
   enum :role, %i[admin client artist]
   validates :name, :lastname, :username, :role, presence: true
   validates :username, uniqueness: true
+  validates :name, :lastname, format: { with: /\A[a-zA-Z]+\z/,
+  message: "Solo puede contener letras" }
   # has_many :seats
 end
