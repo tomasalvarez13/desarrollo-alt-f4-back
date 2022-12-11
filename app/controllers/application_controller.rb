@@ -22,6 +22,10 @@ class ApplicationController < ActionController::API
   end
 
   def me
-    render json: @current_user.as_json(include: %i[posts appointments], except: :password_digest), status: :ok
+    if @current_user.artist?
+      render json: @current_user.as_json(include: %i[posts artist_reviews artist_request], except: :password_digest), status: :ok
+    else
+      render json: @current_user.as_json(include: %i[user_reviews user_request], except: :password_digest), status: :ok
+    end
   end
 end
