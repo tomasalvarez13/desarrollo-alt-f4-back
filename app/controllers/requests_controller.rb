@@ -6,17 +6,23 @@ class RequestsController < ApplicationController
   def index
     @requests = Request.all
     @requests = @requests.where(['current_state = ?', params[:state]]) if params[:state]
-    render json: @requests
+    @requests = @requests.where(['artist_id = ?', @current_user.id]) if @current_user.artist?
+    @requests = @requests.where(['user_id = ?', @current_user.id]) if @current_user.client?
+    render json: @requests.as_json(include: %i[user artist], except: :password_digest),
+           status: :ok
   end
 
   # GET /requests/1
   def show
     render json: @request
   end
+  
 
   # POST /requests
   def create
+    puts request_params
     @request = Request.new(request_params)
+
     @request.user = @current_user
     
     if request_params[:artist_id]
@@ -28,9 +34,11 @@ class RequestsController < ApplicationController
         render json: @request, status: :created, location: @request
       else
         render json: @request.errors, status: :unprocessable_entity
+        puts @request.errors.full_messages
       end
     else
       render json: @request.errors, status: :unprocessable_entity
+      puts @request.errors.full_messages
     end
   end
 
@@ -56,6 +64,21 @@ class RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      params.require(:request).permit(:placement, :height, :width, :color, :image_url, :schedule_date, :request_date, :update_date, :current_state, :phone_number, :description, :user_id, :artist_id)
+      params.require(:request).permit(
+        :placement, 
+        :height, 
+        :width, 
+        :color, 
+        :image_url, 
+        :schedule_date,
+        :request_date,
+        :update_date, 
+        :current_state, 
+        :phone_number, 
+        :description, 
+        :user_id, 
+        :artist_id
+      )
+      
     end
 end
