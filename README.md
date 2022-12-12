@@ -32,4 +32,17 @@ docker-compose run web rake test
 
 * Deployment instructions
 
-* ...
+
+## Environment variables
+
+````
+# .env
+PSQL_USER=postgres
+# PSQL_PASSWORD=tomas221999
+JWT_SECRET=
+AWS_ACCESS_KEY_ID=<insert key>
+AWS_SECRET_ACCESS_KEY=<insert key>
+S3_BUCKET=<bucket name>
+AWS_REGION=<region>
+````
+
