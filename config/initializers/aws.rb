@@ -8,4 +8,4 @@ Aws.config.update({
     '0Sgfupj9iFCPe5ZxBESgmB2Wpb0rUjCKbNB0QISv'),
 })
 
-S3_BUCKET = Aws::S3::Resource.new.bucket(ENV['S3_BUCKET'])
+S3_BUCKET = Aws::S3::Resource.new.bucket('ink-finder-alt-f4')
