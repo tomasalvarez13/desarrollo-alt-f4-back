@@ -1,9 +1,20 @@
 # README
+## Creamos y migramos base de datos con las seeds
+~~~
+docker-compose run web rake db:create  
+docker-compose run web rake db:migrate
+docker-compose run web rake db:seed
+~~~
+## Corremos la
+~~~
+## Para correr los test
+~~~
+docker-compose run web rake db:migrate RAILS_ENV=test
+docker-compose run web rake test
+~~~
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Things you may want to cover:
 
 * Ruby version
 
@@ -21,4 +32,17 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+
+## Environment variables
+
+````
+# .env
+PSQL_USER=postgres
+# PSQL_PASSWORD=tomas221999
+JWT_SECRET=
+AWS_ACCESS_KEY_ID=<insert key>
+AWS_SECRET_ACCESS_KEY=<insert key>
+S3_BUCKET=<bucket name>
+AWS_REGION=<region>
+````
+

@@ -4,6 +4,8 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+.env
+
 # Ignore bundler config.
 /.bundle
 
@@ -32,6 +34,7 @@
 .env
 Gemfile.lock
 
+rvm.sh
 /.env
 
 
@@ -39,5 +42,8 @@ Gemfile.lock
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Coverage from simplecov
+coverage
 
 
